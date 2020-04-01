@@ -6,15 +6,6 @@
             <trans-unit id="tx_github_webhook">
                 <source>Github Webhook</source>
             </trans-unit>
-            <trans-unit id="tx_github_webhook.content_type">
-                <source>Content Type</source>
-            </trans-unit>
-            <trans-unit id="tx_github_webhook.content_type.I.form">
-                <source>application/x-www-form-urlencoded</source>
-            </trans-unit>
-            <trans-unit id="tx_github_webhook.content_type.I.json">
-                <source>application/json</source>
-            </trans-unit>
             <trans-unit id="tx_github_webhook.secret">
                 <source>Secret</source>
             </trans-unit>

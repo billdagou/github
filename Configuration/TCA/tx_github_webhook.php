@@ -14,7 +14,7 @@ return [
     'interface' => [
         'maxDBListItems' => 5,
         'maxSingleDBListItems' => 20,
-        'showRecordFieldList' => 'title, content_type, secret, shell',
+        'showRecordFieldList' => 'title, secret, shell',
     ],
     'columns' => [
         'disabled' => [
@@ -45,16 +45,6 @@ return [
                 'default' => (new \TYPO3\CMS\Core\Crypto\Random())->generateRandomHexString(16),
             ],
         ],
-        'content_type' => [
-            'label' => 'LLL:EXT:github/Resources/Private/Language/locallang_db.xlf:tx_github_webhook.content_type',
-            'config' => [
-                'type' => 'select',
-                'items' => [
-                    ['LLL:EXT:github/Resources/Private/Language/locallang_db.xlf:tx_github_webhook.content_type.I.json', \Dagou\Github\Interfaces\Webhook::CONTENT_TYPE_JSON],
-                    ['LLL:EXT:github/Resources/Private/Language/locallang_db.xlf:tx_github_webhook.content_type.I.form', \Dagou\Github\Interfaces\Webhook::CONTENT_TYPE_FORM],
-                ],
-            ],
-        ],
         'shell' => [
             'label' => 'LLL:EXT:github/Resources/Private/Language/locallang_db.xlf:tx_github_webhook.shell',
             'config' => [
@@ -64,12 +54,7 @@ return [
     ],
     'types' => [
         '0' => [
-            'showitem' => 'title, shell, --palette--;;misc',
-        ],
-    ],
-    'palettes' => [
-        'misc' => [
-            'showitem' => 'content_type, secret',
+            'showitem' => 'title, shell, secret',
         ],
     ],
 ];

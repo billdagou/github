@@ -3,6 +3,7 @@ namespace Dagou\Github\Controller;
 
 use Dagou\Github\Domain\Repository\WebhookRepository;
 use Dagou\Github\Exception\NoSuchActionException;
+use Dagou\Github\Service\WebhookService;
 use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Http\Response;
@@ -29,8 +30,6 @@ class EidController {
 
     public function __construct() {
         $this->objectManager = GeneralUtility::makeInstance(ObjectManager::class);
-
-        $this->webhookRepository = $this->objectManager->get(WebhookRepository::class);
     }
 
     /**
@@ -59,6 +58,8 @@ class EidController {
     }
 
     protected function webhookAction() {
+        $webhookService = $this->objectManager->get(WebhookService::class);
+
         $res = GeneralUtility::makeInstance(ConnectionPool::class)->getConnectionForTable('tx_github_webhook')
             ->select(
                 [
@@ -69,9 +70,16 @@ class EidController {
                     'uid' => $this->request->getQueryParams()['webhook'],
                 ]
             );
-        if (($row = $res->fetch())) {
-            file_put_contents('./webhook', print_r($this->request->getHeaders(), TRUE), FILE_APPEND);
-            file_put_contents('./webhook', print_r($this->request->getBody()->getContents(), TRUE), FILE_APPEND);
+        if (($row = $res->fetch()) && $webhookService->securityVerification($this->request, $row['secret'])) {
+            if (($payload = $webhookService->parsePayload($this->request)) !== NULL) {
+                exec($row['shell']);
+
+                return 'Done';
+            } else {
+                return 'Invalid payload';
+            }
+        } else {
+            return 'Security verification failed';
         }
     }
 }

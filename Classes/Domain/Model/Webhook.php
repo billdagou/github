@@ -15,10 +15,6 @@ class Webhook extends AbstractEntity {
     /**
      * @var string
      */
-    protected $contentType;
-    /**
-     * @var string
-     */
     protected $secret;
 
     /**
@@ -33,18 +29,6 @@ class Webhook extends AbstractEntity {
      */
     public function getTitle(): string {
         return $this->title ?? '';
-    }
-
-    /**
-     * @return string
-     */
-    public function getContentType(): string {
-        $contentTypes = [
-            \Dagou\Github\Interfaces\Webhook::CONTENT_TYPE_FORM => 'application/x-www-form-urlencoded',
-            \Dagou\Github\Interfaces\Webhook::CONTENT_TYPE_JSON => 'application/json',
-        ];
-
-        return $contentTypes[$this->contentType] ?? '';
     }
 
     /**

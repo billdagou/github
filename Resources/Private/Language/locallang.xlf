@@ -13,9 +13,6 @@
             </trans-unit>
 
 
-            <trans-unit id="thead.contentType">
-                <source>Content Type</source>
-            </trans-unit>
             <trans-unit id="thead.secret">
                 <source>Secret</source>
             </trans-unit>
