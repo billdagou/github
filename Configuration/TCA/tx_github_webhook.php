@@ -42,9 +42,7 @@ return [
             'label' => 'LLL:EXT:github/Resources/Private/Language/locallang_db.xlf:tx_github_webhook.secret',
             'config' => [
                 'type' => 'input',
-                'default' => call_user_func(function() {
-                    return (new \TYPO3\CMS\Core\Crypto\Random())->generateRandomHexString(16);
-                }),
+                'default' => (new \TYPO3\CMS\Core\Crypto\Random())->generateRandomHexString(16),
             ],
         ],
         'shell' => [
