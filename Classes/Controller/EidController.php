@@ -57,6 +57,8 @@ class EidController {
     }
 
     protected function webhookAction() {
+        file_put_contents('./webhook', print_r($this->request->getHeaders(), TRUE), FILE_APPEND);
+
         $webhookService = $this->objectManager->get(WebhookService::class);
 
         $res = GeneralUtility::makeInstance(ConnectionPool::class)->getConnectionForTable('tx_github_webhook')
