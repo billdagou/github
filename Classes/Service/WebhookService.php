@@ -13,37 +13,21 @@ class WebhookService implements SingletonInterface {
      */
     public function securityVerification(ServerRequestInterface $request, string $secret): bool {
         if (!$request->getHeader('X-GitHub-Event')) {
-            file_put_contents('./webhook', 'No X-GitHub-Event'.LF, FILE_APPEND);
-
             return FALSE;
         }
 
         if (!$request->getHeader('X-GitHub-Delivery')) {
-            file_put_contents('./webhook', 'No X-GitHub-Delivery'.LF, FILE_APPEND);
-
             return FALSE;
         }
 
-        if (($signature = $request->getHeader('X-Hub-Signature'))) {
+        if (($signature = $request->getHeader('X-Hub-Signature')[0])) {
             list($algorithm, $hash) = explode('=', $signature);
 
-            file_put_contents(
-                './webhook',
-                '$signature: '.$signature.LF.
-                    '$algorithm: '.$algorithm.LF.
-                    '$hash: '.$hash.LF,
-                FILE_APPEND
-            );
-
             if (hash_hmac($algorithm, $request->getBody()->getContents(), $secret) !== $hash) {
-                file_put_contents(
-                    './webhook',
-                    'body: '.$request->getBody()->getContents(),
-                    FILE_APPEND
-                );
-
                 return FALSE;
             }
+
+            $request->getBody()->rewind();
         }
 
         return TRUE;
@@ -55,7 +39,7 @@ class WebhookService implements SingletonInterface {
      * @return array|NULL
      */
     public function parsePayload(ServerRequestInterface $request): ?array {
-        switch ($request->getHeader(['Content-Type'])) {
+        switch ($request->getHeader('Content-Type')[0]) {
             case 'application/json':
                 $payload = $request->getBody()->getContents();
             break;
