@@ -12,15 +12,15 @@ class WebhookService implements SingletonInterface {
      * @return bool
      */
     public function securityVerification(ServerRequestInterface $request, string $secret): bool {
-        if (!$request->getHeader('X-GitHub-Event')) {
+        if (!$request->getHeader('x-gitHub-event')) {
             return FALSE;
         }
 
-        if (!$request->getHeader('X-GitHub-Delivery')) {
+        if (!$request->getHeader('x-gitHub-delivery')) {
             return FALSE;
         }
 
-        if (($signature = $request->getHeader('X-Hub-Signature'))) {
+        if (($signature = $request->getHeader('x-hub-signature'))) {
             [$algorithm, $hash] = explode('=', $signature);
 
             if (hash_hmac($algorithm, $request->getBody()->getContents(), $secret) !== $hash) {
@@ -37,7 +37,7 @@ class WebhookService implements SingletonInterface {
      * @return array|NULL
      */
     public function parsePayload(ServerRequestInterface $request): ?array {
-        switch ($request->getHeader(['Content-Type'])) {
+        switch ($request->getHeader(['content-type'])) {
             case 'application/json':
                 $payload = $request->getBody()->getContents();
             break;

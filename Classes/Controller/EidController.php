@@ -1,7 +1,6 @@
 <?php
 namespace Dagou\Github\Controller;
 
-use Dagou\Github\Domain\Repository\WebhookRepository;
 use Dagou\Github\Exception\NoSuchActionException;
 use Dagou\Github\Service\WebhookService;
 use Psr\Http\Message\ServerRequestInterface;
