@@ -9,6 +9,7 @@ class WebhookRepository extends Repository {
      * @var array
      */
     protected $defaultOrderings = [
+        'title' => QueryInterface::ORDER_ASCENDING,
         'uid' => QueryInterface::ORDER_DESCENDING,
     ];
 
