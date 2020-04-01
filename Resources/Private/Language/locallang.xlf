@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.0">
+    <file source-language="en" datatype="plaintext" original="messages" product-name="github">
+        <header/>
+        <body>
+            <trans-unit id="header.list">
+                <source>Github Webhooks</source>
+            </trans-unit>
+
+
+            <trans-unit id="link.create">
+                <source>Create new Github Webhook</source>
+            </trans-unit>
+
+
+            <trans-unit id="thead.contentType">
+                <source>Content Type</source>
+            </trans-unit>
+            <trans-unit id="thead.secret">
+                <source>Secret</source>
+            </trans-unit>
+            <trans-unit id="thead.title">
+                <source>Title</source>
+            </trans-unit>
+            <trans-unit id="thead.url">
+                <source>Payload URL</source>
+            </trans-unit>
+
+
+            <trans-unit id="title.no_record">
+                <source>No Github Webhook found!</source>
+            </trans-unit>
+
+
+            <trans-unit id="text.no_record">
+                <source>There are currently no Github Webhook records found in the database.</source>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

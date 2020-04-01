@@ -1,1 +1,1 @@
-# github
+# TYPO3 Extension: Github
