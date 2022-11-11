@@ -29,25 +29,25 @@
                         <td>
                             <div class="btn-group" role="group">
                                 <a class="btn btn-default" href="#" title="{f:translate(key:'title.info')}" data-dispatch-action="TYPO3.InfoWindow.showItem" data-dispatch-args-list="tx_github_webhook,{webhook.uid}">
-                                    <core:icon identifier="actions-document-info" />
+                                    <c:icon identifier="actions-document-info" />
                                 </a>
                                 <be:link.editRecord class="btn btn-default" table="tx_github_webhook" uid="{webhook.uid}" title="{f:translate(key: 'title.edit')}">
-                                    <core:icon identifier="actions-open" />
+                                    <c:icon identifier="actions-open" />
                                 </be:link.editRecord>
                                 <f:if condition="{webhook.disabled}">
                                     <f:then>
                                         <a class="btn btn-default" href="{be:moduleLink(route: 'tce_db', query: 'data[tx_github_webhook][{webhook.uid}][disabled]=0', currentUrlParameterName: 'redirect')}" title="{f:translate(key: 'title.unhide')}">
-                                            <core:icon identifier="actions-edit-unhide" />
+                                            <c:icon identifier="actions-edit-unhide" />
                                         </a>
                                     </f:then>
                                     <f:else>
                                         <a class="btn btn-default" href="{be:moduleLink(route: 'tce_db', query: 'data[tx_github_webhook][{webhook.uid}][disabled]=1', currentUrlParameterName: 'redirect')}" title="{f:translate(key: 'title.hide')}">
-                                            <core:icon identifier="actions-edit-hide" />
+                                            <c:icon identifier="actions-edit-hide" />
                                         </a>
                                     </f:else>
                                 </f:if>
                                 <a class="btn btn-default t3js-modal-trigger" href="{be:moduleLink(route: 'tce_db', query: 'cmd[tx_github_webhook][{webhook.uid}][delete]=1', currentUrlParameterName: 'redirect')}" title="{f:translate(key: 'title.delete')}" data-severity="warning" data-title="{f:translate(key: 'heading.delete.webhook')}" data-bs-content="{f:translate(key: 'text.delete.webhook', arguments: '{1: webhook.title}')}" data-button-close-text="{f:translate(key: 'button.cancel')}">
-                                    <core:icon identifier="actions-delete" />
+                                    <c:icon identifier="actions-delete" />
                                 </a>
                             </div>
                         </td>
