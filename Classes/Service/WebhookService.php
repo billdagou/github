@@ -3,7 +3,6 @@ namespace Dagou\Github\Service;
 
 use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\SingletonInterface;
-use TYPO3\CMS\Core\Utility\HttpUtility;
 use TYPO3\CMS\Frontend\Page\CacheHashCalculator;
 
 class WebhookService implements SingletonInterface {
@@ -29,13 +28,13 @@ class WebhookService implements SingletonInterface {
         ]);
 
         if (!hash_equals($calculatedCacheHash, $request->getQueryParams()['cHash'])
-            || !$request->getHeader('X-GitHub-Event')
-            || !$request->getHeader('X-GitHub-Delivery')
+            || !$request->getHeader('x-github-event')
+            || !$request->getHeader('x-github-delivery')
         ) {
             return FALSE;
         }
 
-        if (($signature = $request->getHeader('X-Hub-Signature')[0])) {
+        if (($signature = $request->getHeader('x-hub-signature')[0])) {
             [$algorithm, $hash] = explode('=', $signature);
 
             if (hash_hmac($algorithm, $request->getBody()->getContents(), $secret) !== $hash) {
@@ -54,7 +53,7 @@ class WebhookService implements SingletonInterface {
      * @return array|null
      */
     public function parsePayload(ServerRequestInterface $request): ?array {
-        switch ($request->getHeader('Content-Type')[0]) {
+        switch ($request->getHeader('content-type')[0]) {
             case 'application/json':
                 $payload = $request->getBody()->getContents();
             break;
