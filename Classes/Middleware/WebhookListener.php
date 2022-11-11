@@ -50,12 +50,10 @@ class WebhookListener implements MiddlewareInterface {
 
                 return new Response('Done');
             } else {
-                return (new Response())
-                    ->withStatus(400, 'Invalid payload');
+                return new Response('Invalid payload', 400);
             }
         } else {
-            return (new Response())
-                ->withStatus(400, 'Invalid webhook');
+            return new Response('Invalid webhook', 400);
         }
     }
 }

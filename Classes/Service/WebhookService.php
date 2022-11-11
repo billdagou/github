@@ -27,14 +27,11 @@ class WebhookService implements SingletonInterface {
             'webhook' => $request->getQueryParams()['webhook'],
         ]);
 
-        if (!hash_equals($calculatedCacheHash, $request->getQueryParams()['cHash'])
-            || !$request->getHeader('x-github-event')
-            || !$request->getHeader('x-github-delivery')
-        ) {
+        if (!hash_equals($calculatedCacheHash, $request->getQueryParams()['cHash'])) {
             return FALSE;
         }
 
-        if (($signature = $request->getHeader('x-hub-signature')[0])) {
+        if (($signature = $request->getHeader('x-hub-signature-256')[0])) {
             [$algorithm, $hash] = explode('=', $signature);
 
             if (hash_hmac($algorithm, $request->getBody()->getContents(), $secret) !== $hash) {
