@@ -1,86 +1,59 @@
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en"
-        xmlns:be="http://typo3.org/ns/TYPO3/CMS/Backend/ViewHelpers"
-        xmlns:core="http://typo3.org/ns/TYPO3/CMS/Core/ViewHelpers"
-        xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
-        data-namespace-typo3-fluid="true">
-
-<be:moduleLayout>
-    <f:be.pageRenderer includeRequireJsModules="{0: 'TYPO3/CMS/Backend/Modal'}" />
-
-    <be:moduleLayout.button.linkButton icon="actions-add" title="{f:translate(key: 'LLL:EXT:core/Resources/Private/Language/locallang_mod_web_list.xlf:new')}" link="{be:uri.newRecord(table: 'tx_github_webhook')}" />
-    <be:moduleLayout.button.shortcutButton position="right" />
-
-    <h1>
-        <f:translate key="header.list" />
-    </h1>
-    <f:if condition="{webhooks}">
-        <f:then>
-            <div class="table-fit">
-                <table class="table table-striped table-hover">
-                    <thead>
-                        <tr>
-                            <th>
-                                <f:translate key="thead.title"/>
-                            </th>
-                            <th>
-                                <f:translate key="thead.url"/>
-                            </th>
-                            <th>
-                                <f:translate key="thead.secret"/>
-                            </th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <f:for each="{webhooks}" as="webhook">
-                            <tr>
-                                <td>{webhook.title}</td>
-                                <td>
-                                    <f:uri.typolink parameter="1" additionalParams="&eID=github&action=webhook&webhook={webhook.uid}" absolute="true" />
-                                </td>
-                                <td>{webhook.secret}</td>
-                                <td>
-                                    <div class="btn-group" role="group">
-                                        <a class="btn btn-default" href="#" onclick="top.TYPO3.InfoWindow.showItem('tx_github_webhook', '{webhook.uid}'); return false;">
-                                            <core:icon identifier="actions-document-info" />
+<h1>
+    <f:translate key="heading.webhook" extensionName="Github" />
+</h1>
+<f:if condition="{webhooks}">
+    <div class="table-fit">
+        <table class="table table-striped table-hover table-sm">
+            <thead>
+                <tr>
+                    <th>
+                        <f:translate key="thead.title" extensionName="Github" />
+                    </th>
+                    <th>
+                        <f:translate key="thead.url" extensionName="Github" />
+                    </th>
+                    <th>
+                        <f:translate key="thead.secret" extensionName="Github" />
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <f:for each="{webhooks}" as="webhook">
+                    <tr>
+                        <td>{webhook.title}</td>
+                        <td>
+                            <f:uri.typolink parameter="1" additionalParams="&webhook={webhook.uid}" absolute="true" />
+                        </td>
+                        <td>{webhook.secret}</td>
+                        <td>
+                            <div class="btn-group" role="group">
+                                <a class="btn btn-default" href="#" title="{f:translate(key:'title.info')}" data-dispatch-action="TYPO3.InfoWindow.showItem" data-dispatch-args-list="tx_github_webhook,{webhook.uid}">
+                                    <core:icon identifier="actions-document-info" />
+                                </a>
+                                <be:link.editRecord class="btn btn-default" table="tx_github_webhook" uid="{webhook.uid}" title="{f:translate(key: 'title.edit')}">
+                                    <core:icon identifier="actions-open" />
+                                </be:link.editRecord>
+                                <f:if condition="{webhook.disabled}">
+                                    <f:then>
+                                        <a class="btn btn-default" href="{be:moduleLink(route: 'tce_db', query: 'data[tx_github_webhook][{webhook.uid}][disabled]=0', currentUrlParameterName: 'redirect')}" title="{f:translate(key: 'title.unhide')}">
+                                            <core:icon identifier="actions-edit-unhide" />
                                         </a>
-                                        <be:link.editRecord class="btn btn-default" table="tx_github_webhook" uid="{webhook.uid}" title="{f:translate(key: 'LLL:EXT:core/Resources/Private/Language/locallang_mod_web_list.xlf:edit')}">
-                                            <core:icon identifier="actions-open" />
-                                        </be:link.editRecord>
-                                        <f:if condition="{webhook.disabled}">
-                                            <f:then>
-                                                <a class="btn btn-default" href="{github:uri.webhook.edit(webhook: webhook, command: 'unhide')}" title="{f:translate(key:'LLL:EXT:core/Resources/Private/Language/locallang_mod_web_list.xlf:unHide')}">
-                                                    <core:icon identifier="actions-edit-unhide" />
-                                                </a>
-                                            </f:then>
-                                            <f:else>
-                                                <a class="btn btn-default" href="{github:uri.webhook.edit(webhook: webhook, command: 'hide')}" title="{f:translate(key:'LLL:EXT:core/Resources/Private/Language/locallang_mod_web_list.xlf:hide')}">
-                                                    <core:icon identifier="actions-edit-hide" />
-                                                </a>
-                                            </f:else>
-                                        </f:if>
-                                        <a class="btn btn-default t3js-modal-trigger" href="{github:uri.webhook.edit(webhook: webhook, command: 'delete')}" title="{f:translate(key: 'LLL:EXT:core/Resources/Private/Language/locallang_mod_web_list.xlf:delete')}" data-severity="warning" data-title="{f:translate(key: 'LLL:EXT:backend/Resources/Private/Language/locallang_alt_doc.xlf:label.confirm.delete_record.title')}" data-content="{f:translate(key: 'LLL:EXT:backend/Resources/Private/Language/locallang_alt_doc.xlf:deleteWarning')}" data-button-close-text="{f:translate(key: 'LLL:EXT:backend/Resources/Private/Language/locallang_alt_doc.xlf:buttons.confirm.delete_record.no')}">
-                                            <core:icon identifier="actions-delete" />
+                                    </f:then>
+                                    <f:else>
+                                        <a class="btn btn-default" href="{be:moduleLink(route: 'tce_db', query: 'data[tx_github_webhook][{webhook.uid}][disabled]=1', currentUrlParameterName: 'redirect')}" title="{f:translate(key: 'title.hide')}">
+                                            <core:icon identifier="actions-edit-hide" />
                                         </a>
-                                    </div>
-                                </td>
-                            </tr>
-                        </f:for>
-                    </tbody>
-                </table>
-            </div>
-        </f:then>
-        <f:else>
-            <f:be.infobox state="-1" title="{f:translate(key: 'title.no_record')}">
-                <p>
-                    <f:translate key="text.no_record"/>
-                </p>
-                <be:link.newRecord class="btn btn-primary" table="tx_github_webhook">
-                    <f:translate key="link.create"/>
-                </be:link.newRecord>
-            </f:be.infobox>
-        </f:else>
-    </f:if>
-</be:moduleLayout>
-
-</html>
+                                    </f:else>
+                                </f:if>
+                                <a class="btn btn-default t3js-modal-trigger" href="{be:moduleLink(route: 'tce_db', query: 'cmd[tx_github_webhook][{webhook.uid}][delete]=1', currentUrlParameterName: 'redirect')}" title="{f:translate(key: 'title.delete')}" data-severity="warning" data-title="{f:translate(key: 'heading.delete.webhook')}" data-bs-content="{f:translate(key: 'text.delete.webhook', arguments: '{1: webhook.title}')}" data-button-close-text="{f:translate(key: 'button.cancel')}">
+                                    <core:icon identifier="actions-delete" />
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                </f:for>
+            </tbody>
+        </table>
+    </div>
+</f:if>

@@ -3,25 +3,40 @@ namespace Dagou\Github\Service;
 
 use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\SingletonInterface;
+use TYPO3\CMS\Core\Utility\HttpUtility;
+use TYPO3\CMS\Frontend\Page\CacheHashCalculator;
 
 class WebhookService implements SingletonInterface {
+    protected CacheHashCalculator $cacheHashCalculator;
+
+    /**
+     * @param \TYPO3\CMS\Frontend\Page\CacheHashCalculator $cacheHashCalculator
+     */
+    public function __construct(CacheHashCalculator $cacheHashCalculator) {
+        $this->cacheHashCalculator = $cacheHashCalculator;
+    }
+
     /**
      * @param \Psr\Http\Message\ServerRequestInterface $request
      * @param string $secret
      *
      * @return bool
      */
-    public function securityVerification(ServerRequestInterface $request, string $secret): bool {
-        if (!$request->getHeader('X-GitHub-Event')) {
-            return FALSE;
-        }
+    public function verifySecurity(ServerRequestInterface $request, string $secret): bool {
+        $calculatedCacheHash = $this->cacheHashCalculator->calculateCacheHash([
+            'id' => 1,
+            'webhook' => $request->getQueryParams()['webhook'],
+        ]);
 
-        if (!$request->getHeader('X-GitHub-Delivery')) {
+        if (!hash_equals($calculatedCacheHash, $request->getQueryParams()['cHash'])
+            || !$request->getHeader('X-GitHub-Event')
+            || !$request->getHeader('X-GitHub-Delivery')
+        ) {
             return FALSE;
         }
 
         if (($signature = $request->getHeader('X-Hub-Signature')[0])) {
-            list($algorithm, $hash) = explode('=', $signature);
+            [$algorithm, $hash] = explode('=', $signature);
 
             if (hash_hmac($algorithm, $request->getBody()->getContents(), $secret) !== $hash) {
                 return FALSE;
@@ -36,7 +51,7 @@ class WebhookService implements SingletonInterface {
     /**
      * @param \Psr\Http\Message\ServerRequestInterface $request
      *
-     * @return array|NULL
+     * @return array|null
      */
     public function parsePayload(ServerRequestInterface $request): ?array {
         switch ($request->getHeader('Content-Type')[0]) {

@@ -4,37 +4,28 @@ namespace Dagou\Github\Domain\Model;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 
 class Webhook extends AbstractEntity {
-    /**
-     * @var bool
-     */
-    protected $disabled;
-    /**
-     * @var string
-     */
-    protected $title;
-    /**
-     * @var string
-     */
-    protected $secret;
+    protected bool $disabled = FALSE;
+    protected string $title = '';
+    protected string $secret = '';
 
     /**
      * @return bool
      */
     public function getDisabled(): bool {
-        return $this->disabled ?? FALSE;
+        return $this->disabled;
     }
 
     /**
      * @return string
      */
     public function getTitle(): string {
-        return $this->title ?? '';
+        return $this->title;
     }
 
     /**
      * @return string
      */
     public function getSecret(): string {
-        return $this->secret ?? '';
+        return $this->secret;
     }
 }

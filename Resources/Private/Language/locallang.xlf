@@ -3,13 +3,24 @@
     <file source-language="en" datatype="plaintext" original="messages" product-name="github">
         <header/>
         <body>
-            <trans-unit id="header.list">
+            <trans-unit id="button.cancel">
+                <source>Cancel</source>
+            </trans-unit>
+            <trans-unit id="button.create.webhook">
+                <source>Create new webhook</source>
+            </trans-unit>
+
+
+            <trans-unit id="heading.delete.webhook">
+                <source>Delete Webhook</source>
+            </trans-unit>
+            <trans-unit id="heading.webhook">
                 <source>Github Webhooks</source>
             </trans-unit>
 
 
-            <trans-unit id="link.create">
-                <source>Create new Github Webhook</source>
+            <trans-unit id="text.delete.webhook">
+                <source>Are you sure to delete this webhook: %1$s?</source>
             </trans-unit>
 
 
@@ -24,13 +35,20 @@
             </trans-unit>
 
 
-            <trans-unit id="title.no_record">
-                <source>No Github Webhook found!</source>
+            <trans-unit id="title.delete">
+                <source>Delete</source>
             </trans-unit>
-
-
-            <trans-unit id="text.no_record">
-                <source>There are currently no Github Webhook records found in the database.</source>
+            <trans-unit id="title.edit">
+                <source>Edit</source>
+            </trans-unit>
+            <trans-unit id="title.hide">
+                <source>Disable</source>
+            </trans-unit>
+            <trans-unit id="title.info">
+                <source>Info</source>
+            </trans-unit>
+            <trans-unit id="title.unhide">
+                <source>Enable</source>
             </trans-unit>
         </body>
     </file>

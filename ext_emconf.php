@@ -2,14 +2,14 @@
 $EM_CONF[$_EXTKEY] = [
     'title' => 'Github',
     'description' => 'Github, https://github.com/',
-    'category' => 'fe',
-    'author' => 'Bill.Dagou',
-    'author_email' => 'billdagou@gmail.com',
     'version' => '1.0.0',
-    'state' => 'stable',
+    'category' => 'module',
     'constraints' => [
         'depends' => [
-            'typo3' => '9.5.0-9.5.99',
+            'typo3' => '11.5.0-11.5.99',
         ],
     ],
+    'state' => 'stable',
+    'author' => 'Bill.Dagou',
+    'author_email' => 'billdagou@gmail.com',
 ];

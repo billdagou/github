@@ -1,0 +1,12 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    Dagou\Github\:
+        resource: '../Classes/*'
+        exclude: '../Classes/Domain/Model/*'
+
+    Dagou\Github\Middleware\WebhookListener:
+        public: true
