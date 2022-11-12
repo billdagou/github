@@ -3,18 +3,8 @@ namespace Dagou\Github\Service;
 
 use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\SingletonInterface;
-use TYPO3\CMS\Frontend\Page\CacheHashCalculator;
 
 class WebhookService implements SingletonInterface {
-    protected CacheHashCalculator $cacheHashCalculator;
-
-    /**
-     * @param \TYPO3\CMS\Frontend\Page\CacheHashCalculator $cacheHashCalculator
-     */
-    public function __construct(CacheHashCalculator $cacheHashCalculator) {
-        $this->cacheHashCalculator = $cacheHashCalculator;
-    }
-
     /**
      * @param \Psr\Http\Message\ServerRequestInterface $request
      * @param string $secret
@@ -22,15 +12,6 @@ class WebhookService implements SingletonInterface {
      * @return bool
      */
     public function verifySecurity(ServerRequestInterface $request, string $secret): bool {
-        $calculatedCacheHash = $this->cacheHashCalculator->calculateCacheHash([
-            'id' => 1,
-            'webhook' => $request->getQueryParams()['webhook'],
-        ]);
-
-        if (!hash_equals($calculatedCacheHash, $request->getQueryParams()['cHash'])) {
-            return FALSE;
-        }
-
         if (($signature = $request->getHeader('x-hub-signature-256')[0])) {
             [$algorithm, $hash] = explode('=', $signature);
 

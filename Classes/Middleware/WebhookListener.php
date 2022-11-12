@@ -36,8 +36,7 @@ class WebhookListener implements MiddlewareInterface {
             ->getConnectionForTable('tx_github_webhook')
                 ->select(
                     [
-                        'secret',
-                        'shell',
+                        '*',
                     ],
                     'tx_github_webhook',
                     [
