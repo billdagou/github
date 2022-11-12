@@ -44,16 +44,22 @@ class WebhookListener implements MiddlewareInterface {
                         'uid' => $request->getQueryParams()['webhook'],
                     ]
                 );
-        if (($row = $res->fetchAssociative()) && $this->webhookService->verifySecurity($request, $row['secret'])) {
+        if (FALSE && ($row = $res->fetchAssociative()) && $this->webhookService->verifySecurity($request, $row['secret'])) {
             if ($this->webhookService->parsePayload($request) !== NULL) {
-                exec($row['shell']);
+                $response = new Response();
 
-                return new Response('Done');
+                $response->getBody()->write(
+                    shell_exec($row['shell'])
+                );
+
+                return $response;
             } else {
-                return new Response('Invalid payload', 400);
+                return (new Response())
+                    ->withStatus(400, 'Invalid payload');
             }
         } else {
-            return new Response('Invalid webhook', 400);
+            return (new Response())
+                ->withStatus(400, 'Invalid webhook');
         }
     }
 }
