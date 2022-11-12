@@ -44,7 +44,7 @@ class WebhookListener implements MiddlewareInterface {
                         'uid' => $request->getQueryParams()['webhook'],
                     ]
                 );
-        if (FALSE && ($row = $res->fetchAssociative()) && $this->webhookService->verifySecurity($request, $row['secret'])) {
+        if (($row = $res->fetchAssociative()) && $this->webhookService->verifySecurity($request, $row['secret'])) {
             if ($this->webhookService->parsePayload($request) !== NULL) {
                 $response = new Response();
 
