@@ -28,7 +28,7 @@ class WebhookListener implements MiddlewareInterface {
      * @throws \Doctrine\DBAL\Driver\Exception
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface {
-        if ($request->getQueryParams()['webhook'] === NULL) {
+        if (!isset($request->getQueryParams()['webhook'])) {
             return $handler->handle($request);
         }
 

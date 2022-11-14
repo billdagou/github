@@ -10,4 +10,4 @@ With this extension, all you need is to set up the webhooks in your repository s
 
 ### Known Issues
 
-- The value of the `secret` doesn't change until the caches is cleared.
+- The value of the `secret` doesn't change until the cache is cleared.
