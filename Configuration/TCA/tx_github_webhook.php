@@ -35,15 +35,11 @@ return [
             'config' => [
                 'type' => 'slug',
                 'appearance' => [
-                    'prefix' => function() {
-                        return '';
-                    },
+                    'prefix' => \Dagou\Github\UserFunction\TCA\Slug::class.'->appearancePrefix',
                 ],
                 'generatorOptions' => [
                     'postModifiers' => [
-                        function() {
-                            return (new \TYPO3\CMS\Core\Crypto\Random())->generateRandomHexString(16);
-                        },
+                        \Dagou\Github\UserFunction\TCA\Slug::class.'->postModifier',
                     ],
                 ],
             ],
