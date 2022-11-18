@@ -33,8 +33,19 @@ return [
         'secret' => [
             'label' => 'LLL:EXT:github/Resources/Private/Language/locallang_tca.xlf:tx_github_webhook.secret',
             'config' => [
-                'type' => 'input',
-                'default' => (new \TYPO3\CMS\Core\Crypto\Random())->generateRandomHexString(16),
+                'type' => 'slug',
+                'appearance' => [
+                    'prefix' => function() {
+                        return '';
+                    },
+                ],
+                'generatorOptions' => [
+                    'postModifiers' => [
+                        function() {
+                            return (new \TYPO3\CMS\Core\Crypto\Random())->generateRandomHexString(16);
+                        },
+                    ],
+                ],
             ],
         ],
         'shell' => [
